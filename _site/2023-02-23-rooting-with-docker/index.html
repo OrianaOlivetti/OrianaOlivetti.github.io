@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- Beautiful Jekyll 5.0.0 | Copyright Dean Attali 2020 -->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  
+
+  
+
+  <title>Rooting with Docker Containers</title>
+
+  
+  <meta name="author" content="Oriana Olivetti">
+  
+
+  <meta name="description" content="How to take advantage of container creation to get root access on a host">
+
+  
+
+  
+
+  
+  <link rel="alternate" type="application/rss+xml" title="Hacking Diaries" href="http://localhost:4000/feed.xml">
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+    
+      
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+
+    
+      
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css">
+
+
+    
+      
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic">
+
+
+    
+      
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800">
+
+
+    
+  
+
+  
+    
+      <link rel="stylesheet" href="/assets/css/bootstrap-social.css">
+    
+      <link rel="stylesheet" href="/assets/css/beautifuljekyll.css">
+    
+  
+
+  
+
+  
+  
+  
+
+  
+
+  
+  <meta property="og:site_name" content="Hacking Diaries">
+  <meta property="og:title" content="Rooting with Docker Containers">
+  <meta property="og:description" content="How to take advantage of container creation to get root access on a host">
+
+  
+  <meta property="og:image" content="http://localhost:4000/assets/img/rooting-with-docker/cover.jpg">
+  
+
+  
+  <meta property="og:type" content="article">
+  <meta property="og:article:author" content="Oriana Olivetti">
+  <meta property="og:article:published_time" content="2023-02-23T00:00:00-05:00">
+  <meta property="og:url" content="http://localhost:4000/2023-02-23-rooting-with-docker/">
+  <link rel="canonical" href="http://localhost:4000/2023-02-23-rooting-with-docker/">
+  
+
+  
+  <meta name="twitter:card" content="summary_large_image">
+  
+  <meta name="twitter:site" content="@OlivettiOriana">
+  <meta name="twitter:creator" content="@OlivettiOriana">
+
+  <meta property="twitter:title" content="Rooting with Docker Containers">
+  <meta property="twitter:description" content="How to take advantage of container creation to get root access on a host">
+
+  
+  <meta name="twitter:image" content="http://localhost:4000/assets/img/rooting-with-docker/cover.jpg">
+  
+
+  
+
+
+  
+
+  
+
+</head>
+
+
+<body>
+
+  
+
+
+  <nav class="navbar navbar-expand-xl navbar-light fixed-top navbar-custom top-nav-regular"><a class="navbar-brand" href="http://localhost:4000/">Hacking Diaries</a><button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="main-navbar">
+    <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="/aboutme">About Me</a>
+          </li>
+        <li class="nav-item">
+          <a class="nav-link" id="nav-search-link" href="#" title="Search">
+            <span id="nav-search-icon" class="fa fa-search"></span>
+            <span id="nav-search-text">Search</span>
+          </a>
+        </li></ul>
+  </div>
+
+  
+
+  
+    <div class="avatar-container">
+      <div class="avatar-img-border">
+        <a href="http://localhost:4000/">
+          <img alt="Navigation bar avatar" class="avatar-img" src="/assets/img/avatar-icon.png" />
+        </a>
+      </div>
+    </div>
+  
+
+</nav>
+
+
+
+<div id="beautifuljekyll-search-overlay">
+
+  <div id="nav-search-exit" title="Exit search">✕</div>
+  <input type="text" id="nav-search-input" placeholder="Search">
+  <ul id="search-results-container"></ul>
+  
+  <script src="https://unpkg.com/simple-jekyll-search@latest/dest/simple-jekyll-search.min.js"></script>
+  <script>
+    var searchjson = '[ \
+       \
+        { \
+          "title"    : "Getting root user access so easily? How come!", \
+          "category" : "binaryrootlinuxhack", \
+          "url"      : "/2023-07-14-rooting-is-easy/", \
+          "date"     : "July 14, 2023" \
+        }, \
+       \
+        { \
+          "title"    : "Rooting with Docker Containers", \
+          "category" : "dockerrootlinuxhack", \
+          "url"      : "/2023-02-23-rooting-with-docker/", \
+          "date"     : "February 23, 2023" \
+        }, \
+       \
+        { \
+          "title"    : "Sample blog post", \
+          "category" : "test", \
+          "url"      : "/2020-02-28-test-markdown/", \
+          "date"     : "February 28, 2020" \
+        }, \
+       \
+        { \
+          "title"    : "Flake it till you make it", \
+          "category" : "bookstest", \
+          "url"      : "/2020-02-26-flake-it-till-you-make-it/", \
+          "date"     : "February 26, 2020" \
+        }, \
+       \
+       \
+        { \
+          "title"    : "About me", \
+          "category" : "page", \
+          "url"      : "/aboutme/", \
+          "date"     : "January 1, 1970" \
+        }, \
+       \
+        { \
+          "title"    : "Welcome!", \
+          "category" : "page", \
+          "url"      : "/", \
+          "date"     : "January 1, 1970" \
+        }, \
+       \
+        { \
+          "title"    : "Tag Index", \
+          "category" : "page", \
+          "url"      : "/tags/", \
+          "date"     : "January 1, 1970" \
+        } \
+       \
+    ]';
+    searchjson = JSON.parse(searchjson);
+
+    var sjs = SimpleJekyllSearch({
+      searchInput: document.getElementById('nav-search-input'),
+      resultsContainer: document.getElementById('search-results-container'),
+      json: searchjson
+    });
+  </script>
+</div>
+
+
+
+
+
+  <!-- TODO this file has become a mess, refactor it -->
+
+
+
+
+
+
+  <div id="header-big-imgs" data-num-img=1
+    
+    
+    
+      
+      data-img-src-1="http://localhost:4000/assets/img/rooting-with-docker/cover.jpg"
+    
+    
+    
+  ></div>
+
+
+<header class="header-section has-img">
+
+<div class="big-img intro-header">
+  <div class="container-md">
+    <div class="row">
+      <div class="col-xl-8 offset-xl-2 col-lg-10 offset-lg-1">
+        <div class="post-heading">
+          <h1>Rooting with Docker Containers</h1>
+          
+            
+              <h2 class="post-subheading">How to take advantage of container creation to get root access on a host</h2>
+            
+          
+
+          
+            <span class="post-meta">Posted on February 23, 2023</span>
+            
+            
+          
+        </div>
+      </div>
+    </div>
+  </div>
+  <span class='img-desc'></span>
+</div>
+
+<div class="intro-header no-img">
+  <div class="container-md">
+    <div class="row">
+      <div class="col-xl-8 offset-xl-2 col-lg-10 offset-lg-1">
+        <div class="post-heading">
+          <h1>Rooting with Docker Containers</h1>
+          
+            
+              <h2 class="post-subheading">How to take advantage of container creation to get root access on a host</h2>
+            
+          
+
+          
+            <span class="post-meta">Posted on February 23, 2023</span>
+            
+            
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</header>
+
+
+
+
+
+<div class=" container-md ">
+  <div class="row">
+    <div class=" col-xl-8 offset-xl-2 col-lg-10 offset-lg-1 ">
+
+      
+
+      
+
+      <article role="main" class="blog-post">
+        <p>Will you believe me if I tell you that Docker is a hacker? 
+Let me show you how to take advantage of Docker containers so you can access any high privilege file or perform any command as root.</p>
+
+<p>To begin with, if you already know Docker, you might be aware that the processes inside each container are completely isolated from one another, however, they do share the same <strong>system’s kernel</strong>. And if you are new to Docker, now you know it, roughly.</p>
+
+<p>The fun part starts now!, so if you want to follow along, feel free to duplicate the commands I’m about to show you. Hope you enjoy the ride!
+Let’s start by running a sample apache container, but we will put it to sleep for a while.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run -d alpine sleep 1d
+</code></pre></div></div>
+<p>Next I’m going to search for that process, to see its user.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ps aux | grep sleep
+</code></pre></div></div>
+<p><img src="/assets/img/rooting-with-docker/1.png" alt="Terminal" class="mx-auto d-block" /></p>
+
+<p>Mmm… weird, it says root, not oriana, but it must be the user running inside that container… right? 
+It’s surely matching the userid from inside the container with the userid that exists on the host machine. But the process inside the container is definetely running with a non-root user. It must be it!</p>
+
+<p>To clear doubts, let’s try another case, to make sure that everything works correctly.</p>
+
+<p>As root, I’ll create a secret file which is very sensitive, and change its permissions so only root will be authorized to see its content.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>echo "secret" &gt; /tmp/supersecret.txt
+chmod 0600 /tmp/supersecret.txt
+</code></pre></div></div>
+<p><img src="/assets/img/rooting-with-docker/2.png" alt="Terminal" class="mx-auto d-block" /></p>
+
+<p>We have our secret file ready, which can only we read and written by root. Meaning that no other user should be able to see it or modify it.</p>
+
+<p>So now, this less privilege user called simba, (which happens to have the same name as my lovely cat), will create a container adding the directory /tmp as a volume. What will happen inside of it? 
+Simba won’t be able to open supersecret.txt, obviously, because he is not a root user. But stuborn as he is, he tries either way.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run -v /tmp:/tmp -it alpine sh
+</code></pre></div></div>
+<p><img src="/assets/img/rooting-with-docker/3.png" alt="Terminal" class="mx-auto d-block" /></p>
+
+<p>Wait, what? How was that possible? Was that some sort of witchcraft?</p>
+
+<p>Not really, but cool stuff isn’t it? This happens because docker daemons usually runs as root on the host system, meaning that every user capable of creating docker containers could revise or alter arbitrary files for which they don’t have permission. Provided that they can mount the directories as volumes, of course.</p>
+
+<p>And then you realize, that most probably, your docker servers are vulnerable, that you need to warn your colleges.</p>
+
+<p><strong>Now, how do we fix this?</strong></p>
+
+<p>You can make Docker to create user ids and group ids outside the ids range handled by the host system (outside 0-1000) by editing <strong>etc/docker/daemon.json</strong> and adding <strong>{“userns-remap”: “default”}</strong> to the contents on the file. This has some limitation, which you can read and learn more about it on Docker’s <a href="https://docs.docker.com/engine/security/userns-remap/">official documentation</a>. And then check the change did the trick by revising the <strong>/etc/subuid</strong> file.</p>
+
+<p><strong>IMPORTANT</strong>, note that by doing this, all your images and containers will be erased from the system because docker needs to update all the different ids.</p>
+
+<p>Other solution would be to configure the docker daemon as <strong>rootless</strong>, altough it has several dificulties and much more restrinctions, so make sure you understand what this means if your want to implement this rootless configuration on your system. You can learn more about it in <a href="https://docs.docker.com/engine/security/rootless/">here</a>.</p>
+
+<p>If you liked this post, and want to see Simba putting himself into trouble, make sure to follow me on Twitter and Linkedin, where I’ll update you whenever a new post comes out!</p>
+
+<p>Happy Hacking!</p>
+
+      </article>
+
+      
+        <div class="blog-tags">
+          <span>Tags:</span>
+          
+            <a href="/tags#docker">docker</a>
+          
+            <a href="/tags#root">root</a>
+          
+            <a href="/tags#linux">linux</a>
+          
+            <a href="/tags#hack">hack</a>
+          
+        </div>
+      
+
+      
+
+      
+        <!-- Check if any share-links are active -->
+
+
+
+
+<section id = "social-share-section">
+  <span class="sr-only">Share: </span>
+
+  
+    <a href="https://twitter.com/intent/tweet?text=Rooting+with+Docker+Containers&url=http%3A%2F%2Flocalhost%3A4000%2F2023-02-23-rooting-with-docker%2F"
+      class="btn btn-social-icon btn-twitter" title="Share on Twitter">
+      <span class="fab fa-fw fa-twitter" aria-hidden="true"></span>
+      <span class="sr-only">Twitter</span>
+    </a>
+  
+
+  
+    <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2F2023-02-23-rooting-with-docker%2F"
+      class="btn btn-social-icon btn-facebook" title="Share on Facebook">
+      <span class="fab fa-fw fa-facebook" aria-hidden="true"></span>
+      <span class="sr-only">Facebook</span>
+    </a>
+  
+
+  
+    <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2F2023-02-23-rooting-with-docker%2F"
+      class="btn btn-social-icon btn-linkedin" title="Share on LinkedIn">
+      <span class="fab fa-fw fa-linkedin" aria-hidden="true"></span>
+      <span class="sr-only">LinkedIn</span>
+    </a>
+  
+
+  
+
+  
+
+</section>
+
+
+
+      
+
+      <ul class="pagination blog-pager">
+        
+        <li class="page-item previous">
+          <a class="page-link" href="/2020-02-28-test-markdown/" data-toggle="tooltip" data-placement="top" title="Sample blog post">&larr; Previous Post</a>
+        </li>
+        
+        
+        <li class="page-item next">
+          <a class="page-link" href="/2023-07-14-rooting-is-easy/" data-toggle="tooltip" data-placement="top" title="Getting root user access so easily? How come!">Next Post &rarr;</a>
+        </li>
+        
+      </ul>
+      
+  
+  
+  
+
+  
+
+
+  
+
+  
+
+
+
+    </div>
+  </div>
+</div>
+
+
+  <footer>
+  <div class="container-md beautiful-jekyll-footer">
+    <div class="row">
+      <div class="col-xl-8 offset-xl-2 col-lg-10 offset-lg-1">
+      <ul class="list-inline text-center footer-links"><li class="list-inline-item">
+    <a href="mailto:oriana_olivetti@outlook.com" title="Email me">
+      <span class="fa-stack fa-lg" aria-hidden="true">
+        <i class="fas fa-circle fa-stack-2x"></i>
+        <i class="fas fa-envelope fa-stack-1x fa-inverse"></i>
+      </span>
+      <span class="sr-only">Email me</span>
+   </a>
+  </li><li class="list-inline-item">
+    <a href="https://github.com/OrianaOlivetti" title="GitHub">
+      <span class="fa-stack fa-lg" aria-hidden="true">
+        <i class="fas fa-circle fa-stack-2x"></i>
+        <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+      </span>
+      <span class="sr-only">GitHub</span>
+   </a>
+  </li><li class="list-inline-item">
+    <a href="https://twitter.com/OlivettiOriana" title="Twitter">
+      <span class="fa-stack fa-lg" aria-hidden="true">
+        <i class="fas fa-circle fa-stack-2x"></i>
+        <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+      </span>
+      <span class="sr-only">Twitter</span>
+   </a>
+  </li><li class="list-inline-item">
+    <a href="https://linkedin.com/in/oriana-olivetti-salvá" title="LinkedIn">
+      <span class="fa-stack fa-lg" aria-hidden="true">
+        <i class="fas fa-circle fa-stack-2x"></i>
+        <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+      </span>
+      <span class="sr-only">LinkedIn</span>
+   </a>
+  </li><li class="list-inline-item">
+    <a href="https://www.instagram.com/oriana_olivetti" title="Instagram">
+      <span class="fa-stack fa-lg" aria-hidden="true">
+        <i class="fas fa-circle fa-stack-2x"></i>
+        <i class="fab fa-instagram fa-stack-1x fa-inverse"></i>
+      </span>
+      <span class="sr-only">Instagram</span>
+   </a>
+  </li></ul>
+
+      
+      <p class="copyright text-muted">
+      
+        Oriana Olivetti
+        &nbsp;&bull;&nbsp;
+      
+      2023
+
+      
+
+      
+
+      
+
+      </p>
+      <p class="theme-by text-muted">
+        Powered by
+        <a href="https://beautifuljekyll.com">Beautiful Jekyll</a>
+      </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  
+  
+    
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs=" crossorigin="anonymous"></script>
+
+
+  
+    
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+
+
+  
+    
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+
+  
+
+
+
+  
+    <!-- doing something a bit funky here because I want to be careful not to include JQuery twice! -->
+    
+      <script src="/assets/js/beautifuljekyll.js"></script>
+    
+  
+
+
+
+
+
+
+
+
+
+</body>
+</html>
