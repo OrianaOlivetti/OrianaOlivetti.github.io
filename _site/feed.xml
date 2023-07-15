@@ -12,6 +12,28 @@
     
     
       <item>
+        <title>Getting root user access so easily? How come!</title>
+        <description>
+          How to take advantage of system binaries to get root access on a host - 
+          Oh! Hi! Didn’t see you there little fellow. You may wonder how you can get root access as quick as the blink of an eye… So you are in the right place. What do I mean by root access? You may be familiar with the Windows’ Administrator account, that, like...
+        </description>
+        <pubDate>Fri, 14 Jul 2023 00:00:00 -0400</pubDate>
+        <link>http://localhost:4000/2023-07-14-rooting-is-easy/</link>
+        <guid isPermaLink="true">http://localhost:4000/2023-07-14-rooting-is-easy/</guid>
+      </item>
+    
+      <item>
+        <title>Rooting with Docker Containers</title>
+        <description>
+          How to take advantage of container creation to get root access on a host - 
+          Will you believe me if I tell you that Docker is a hacker? Let me show you how to take advantage of Docker containers so you can access any high privilege file or perform any command as root. To begin with, if you already know Docker, you might be aware...
+        </description>
+        <pubDate>Thu, 23 Feb 2023 00:00:00 -0500</pubDate>
+        <link>http://localhost:4000/2023-02-23-rooting-with-docker/</link>
+        <guid isPermaLink="true">http://localhost:4000/2023-02-23-rooting-with-docker/</guid>
+      </item>
+    
+      <item>
         <title>Sample blog post</title>
         <description>
           Each post also has a subtitle - 
