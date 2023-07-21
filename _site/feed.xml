@@ -23,6 +23,17 @@
       </item>
     
       <item>
+        <title>Rooting with forgotten CronJobs</title>
+        <description>
+          How to take advantage of forgotten cronjobs to get root access on a host - 
+          As you might have guessed by the title, in this article, we will explore another scenario where we could take advantage of forgotten cronjobs to gain our precious root access. BUT FIRST, if you are new here, or missed the previous articles about this, don’t hesitate to pay a visit...
+        </description>
+        <pubDate>Fri, 14 Jul 2023 00:00:00 -0400</pubDate>
+        <link>http://localhost:4000/2023-07-14-rooting-forgotten-cronjobs/</link>
+        <guid isPermaLink="true">http://localhost:4000/2023-07-14-rooting-forgotten-cronjobs/</guid>
+      </item>
+    
+      <item>
         <title>Rooting with Docker Containers</title>
         <description>
           How to take advantage of container creation to get root access on a host - 
