@@ -161,16 +161,23 @@
     var searchjson = '[ \
        \
         { \
-          "title"    : "Getting root user access so easily? How come!", \
-          "category" : "binaryrootlinuxhack", \
-          "url"      : "/2023-07-14-rooting-is-easy/", \
-          "date"     : "July 14, 2023" \
+          "title"    : "3 Ways NOT to store secrets in Docker Containers", \
+          "category" : "dockercontainerssecretsleakenvarsvolume", \
+          "url"      : "/2023-07-30-not-store-secrets-docker/", \
+          "date"     : "July 30, 2023" \
         }, \
        \
         { \
           "title"    : "Rooting with forgotten CronJobs", \
           "category" : "cronjobrootlinuxhackscript", \
-          "url"      : "/2023-07-14-rooting-forgotten-cronjobs/", \
+          "url"      : "/2023-07-21-rooting-forgotten-cronjobs/", \
+          "date"     : "July 21, 2023" \
+        }, \
+       \
+        { \
+          "title"    : "Getting root user access so easily? How come!", \
+          "category" : "binaryrootlinuxhack", \
+          "url"      : "/2023-07-14-rooting-is-easy/", \
           "date"     : "July 14, 2023" \
         }, \
        \
@@ -179,20 +186,6 @@
           "category" : "dockerrootlinuxhack", \
           "url"      : "/2023-02-23-rooting-with-docker/", \
           "date"     : "February 23, 2023" \
-        }, \
-       \
-        { \
-          "title"    : "Sample blog post", \
-          "category" : "test", \
-          "url"      : "/2020-02-28-test-markdown/", \
-          "date"     : "February 28, 2020" \
-        }, \
-       \
-        { \
-          "title"    : "Flake it till you make it", \
-          "category" : "bookstest", \
-          "url"      : "/2020-02-26-flake-it-till-you-make-it/", \
-          "date"     : "February 26, 2020" \
         }, \
        \
        \
@@ -285,6 +278,174 @@
 
       
 
+      <a href="http://localhost:4000/2023-07-30-not-store-secrets-docker/">
+        <h2 class="post-title">3 Ways NOT to store secrets in Docker Containers</h2>
+
+        
+          <h3 class="post-subtitle">
+          Can your secrets be compromised in a containerized deployment? Are they safe enough from no desired snoopers?
+          </h3>
+        
+      </a>
+
+      <p class="post-meta">
+        
+        Posted on July 30, 2023
+      </p>
+
+      
+      <div class="post-image post-image-small">
+        <a href="http://localhost:4000/2023-07-30-not-store-secrets-docker/" aria-label="Thumbnail">
+          <img src="http://localhost:4000/assets/img/not-store-secrets-docker/cover.jpg" alt="Post thumbnail">
+        </a>
+      </div>
+      
+
+      
+      
+      <div class="post-image post-image-short">
+        <a href="http://localhost:4000/2023-07-30-not-store-secrets-docker/" aria-label="Thumbnail">
+          <img src="http://localhost:4000/assets/img/not-store-secrets-docker/cover.jpg" alt="Post thumbnail">
+        </a>
+      </div>
+      
+
+      <div class="post-entry">
+        
+        What do I mean by “secrets”?
+
+
+        
+        
+          <a href="http://localhost:4000/2023-07-30-not-store-secrets-docker/" class="post-read-more">[Read&nbsp;More]</a>
+        
+      </div>
+      
+
+      
+      <div class="blog-tags">
+        <span>Tags:</span>
+        <!-- role="list" needed so that `list-style: none` in Safari doesn't remove the list semantics -->
+        <ul class="d-inline list-inline" role="list">
+          
+          <li class="list-inline-item">
+            <a href="http://localhost:4000/tags#docker">docker</a>
+          </li>
+          
+          <li class="list-inline-item">
+            <a href="http://localhost:4000/tags#containers">containers</a>
+          </li>
+          
+          <li class="list-inline-item">
+            <a href="http://localhost:4000/tags#secrets">secrets</a>
+          </li>
+          
+          <li class="list-inline-item">
+            <a href="http://localhost:4000/tags#leak">leak</a>
+          </li>
+          
+          <li class="list-inline-item">
+            <a href="http://localhost:4000/tags#envars">envars</a>
+          </li>
+          
+          <li class="list-inline-item">
+            <a href="http://localhost:4000/tags#volume">volume</a>
+          </li>
+          
+        </ul>
+      </div>
+      
+
+    </article>
+  </li>
+  
+  <li class="post-preview">
+    <article>
+      
+
+      
+
+      <a href="http://localhost:4000/2023-07-21-rooting-forgotten-cronjobs/">
+        <h2 class="post-title">Rooting with forgotten CronJobs</h2>
+
+        
+          <h3 class="post-subtitle">
+          How to take advantage of forgotten cronjobs to get root access on a host
+          </h3>
+        
+      </a>
+
+      <p class="post-meta">
+        
+        Posted on July 21, 2023
+      </p>
+
+      
+      <div class="post-image post-image-small">
+        <a href="http://localhost:4000/2023-07-21-rooting-forgotten-cronjobs/" aria-label="Thumbnail">
+          <img src="http://localhost:4000/assets/img/rooting-forgotten-cronjobs/cover.jpg" alt="Post thumbnail">
+        </a>
+      </div>
+      
+
+      
+      
+      <div class="post-image post-image-short">
+        <a href="http://localhost:4000/2023-07-21-rooting-forgotten-cronjobs/" aria-label="Thumbnail">
+          <img src="http://localhost:4000/assets/img/rooting-forgotten-cronjobs/cover.jpg" alt="Post thumbnail">
+        </a>
+      </div>
+      
+
+      <div class="post-entry">
+        
+        As you might have guessed by the title, in this article, we will explore another scenario where we could take advantage of forgotten cronjobs to gain our precious root access. BUT FIRST, if you are new here, or missed the previous articles about this, don’t hesitate to pay a visit...
+        
+        
+          <a href="http://localhost:4000/2023-07-21-rooting-forgotten-cronjobs/" class="post-read-more">[Read&nbsp;More]</a>
+        
+      </div>
+      
+
+      
+      <div class="blog-tags">
+        <span>Tags:</span>
+        <!-- role="list" needed so that `list-style: none` in Safari doesn't remove the list semantics -->
+        <ul class="d-inline list-inline" role="list">
+          
+          <li class="list-inline-item">
+            <a href="http://localhost:4000/tags#cronjob">cronjob</a>
+          </li>
+          
+          <li class="list-inline-item">
+            <a href="http://localhost:4000/tags#root">root</a>
+          </li>
+          
+          <li class="list-inline-item">
+            <a href="http://localhost:4000/tags#linux">linux</a>
+          </li>
+          
+          <li class="list-inline-item">
+            <a href="http://localhost:4000/tags#hack">hack</a>
+          </li>
+          
+          <li class="list-inline-item">
+            <a href="http://localhost:4000/tags#script">script</a>
+          </li>
+          
+        </ul>
+      </div>
+      
+
+    </article>
+  </li>
+  
+  <li class="post-preview">
+    <article>
+      
+
+      
+
       <a href="http://localhost:4000/2023-07-14-rooting-is-easy/">
         <h2 class="post-title">Getting root user access so easily? How come!</h2>
 
@@ -349,87 +510,6 @@
           
           <li class="list-inline-item">
             <a href="http://localhost:4000/tags#hack">hack</a>
-          </li>
-          
-        </ul>
-      </div>
-      
-
-    </article>
-  </li>
-  
-  <li class="post-preview">
-    <article>
-      
-
-      
-
-      <a href="http://localhost:4000/2023-07-14-rooting-forgotten-cronjobs/">
-        <h2 class="post-title">Rooting with forgotten CronJobs</h2>
-
-        
-          <h3 class="post-subtitle">
-          How to take advantage of forgotten cronjobs to get root access on a host
-          </h3>
-        
-      </a>
-
-      <p class="post-meta">
-        
-        Posted on July 14, 2023
-      </p>
-
-      
-      <div class="post-image post-image-small">
-        <a href="http://localhost:4000/2023-07-14-rooting-forgotten-cronjobs/" aria-label="Thumbnail">
-          <img src="http://localhost:4000/assets/img/rooting-forgotten-cronjobs/cover.jpg" alt="Post thumbnail">
-        </a>
-      </div>
-      
-
-      
-      
-      <div class="post-image post-image-short">
-        <a href="http://localhost:4000/2023-07-14-rooting-forgotten-cronjobs/" aria-label="Thumbnail">
-          <img src="http://localhost:4000/assets/img/rooting-forgotten-cronjobs/cover.jpg" alt="Post thumbnail">
-        </a>
-      </div>
-      
-
-      <div class="post-entry">
-        
-        As you might have guessed by the title, in this article, we will explore another scenario where we could take advantage of forgotten cronjobs to gain our precious root access. BUT FIRST, if you are new here, or missed the previous articles about this, don’t hesitate to pay a visit...
-        
-        
-          <a href="http://localhost:4000/2023-07-14-rooting-forgotten-cronjobs/" class="post-read-more">[Read&nbsp;More]</a>
-        
-      </div>
-      
-
-      
-      <div class="blog-tags">
-        <span>Tags:</span>
-        <!-- role="list" needed so that `list-style: none` in Safari doesn't remove the list semantics -->
-        <ul class="d-inline list-inline" role="list">
-          
-          <li class="list-inline-item">
-            <a href="http://localhost:4000/tags#cronjob">cronjob</a>
-          </li>
-          
-          <li class="list-inline-item">
-            <a href="http://localhost:4000/tags#root">root</a>
-          </li>
-          
-          <li class="list-inline-item">
-            <a href="http://localhost:4000/tags#linux">linux</a>
-          </li>
-          
-          <li class="list-inline-item">
-            <a href="http://localhost:4000/tags#hack">hack</a>
-          </li>
-          
-          <li class="list-inline-item">
-            <a href="http://localhost:4000/tags#script">script</a>
           </li>
           
         </ul>
@@ -510,130 +590,6 @@ Let me show you how to take advantage of Docker containers so you can access any
           
           <li class="list-inline-item">
             <a href="http://localhost:4000/tags#hack">hack</a>
-          </li>
-          
-        </ul>
-      </div>
-      
-
-    </article>
-  </li>
-  
-  <li class="post-preview">
-    <article>
-      
-
-      
-
-      <a href="http://localhost:4000/2020-02-28-test-markdown/">
-        <h2 class="post-title">Sample blog post</h2>
-
-        
-          <h3 class="post-subtitle">
-          Each post also has a subtitle
-          </h3>
-        
-      </a>
-
-      <p class="post-meta">
-        
-        Posted on February 28, 2020
-      </p>
-
-      
-
-      
-      
-
-      <div class="post-entry">
-        
-        This is a demo post to show you how to write blog posts with markdown.  I strongly encourage you to take 5 minutes to learn how to write in markdown - it’ll teach you how to transform regular text into bold/italics/headings/tables/etc.
-
-
-        
-        
-          <a href="http://localhost:4000/2020-02-28-test-markdown/" class="post-read-more">[Read&nbsp;More]</a>
-        
-      </div>
-      
-
-      
-      <div class="blog-tags">
-        <span>Tags:</span>
-        <!-- role="list" needed so that `list-style: none` in Safari doesn't remove the list semantics -->
-        <ul class="d-inline list-inline" role="list">
-          
-          <li class="list-inline-item">
-            <a href="http://localhost:4000/tags#test">test</a>
-          </li>
-          
-        </ul>
-      </div>
-      
-
-    </article>
-  </li>
-  
-  <li class="post-preview">
-    <article>
-      
-
-      
-
-      <a href="http://localhost:4000/2020-02-26-flake-it-till-you-make-it/">
-        <h2 class="post-title">Flake it till you make it</h2>
-
-        
-          <h3 class="post-subtitle">
-          Excerpt from Soulshaping by Jeff Brown
-          </h3>
-        
-      </a>
-
-      <p class="post-meta">
-        
-        Posted on February 26, 2020
-      </p>
-
-      
-      <div class="post-image post-image-small">
-        <a href="http://localhost:4000/2020-02-26-flake-it-till-you-make-it/" aria-label="Thumbnail">
-          <img src="http://localhost:4000/assets/img/thumb.png" alt="Post thumbnail">
-        </a>
-      </div>
-      
-
-      
-      
-      <div class="post-image post-image-short">
-        <a href="http://localhost:4000/2020-02-26-flake-it-till-you-make-it/" aria-label="Thumbnail">
-          <img src="http://localhost:4000/assets/img/thumb.png" alt="Post thumbnail">
-        </a>
-      </div>
-      
-
-      <div class="post-entry">
-        
-        Under what circumstances should we step off a path? When is it essential that we finish what we start? If I bought a bag of peanuts and had an allergic reaction, no one would fault me if I threw it out. If I ended a relationship with a woman who...
-        
-        
-          <a href="http://localhost:4000/2020-02-26-flake-it-till-you-make-it/" class="post-read-more">[Read&nbsp;More]</a>
-        
-      </div>
-      
-
-      
-      <div class="blog-tags">
-        <span>Tags:</span>
-        <!-- role="list" needed so that `list-style: none` in Safari doesn't remove the list semantics -->
-        <ul class="d-inline list-inline" role="list">
-          
-          <li class="list-inline-item">
-            <a href="http://localhost:4000/tags#books">books</a>
-          </li>
-          
-          <li class="list-inline-item">
-            <a href="http://localhost:4000/tags#test">test</a>
           </li>
           
         </ul>

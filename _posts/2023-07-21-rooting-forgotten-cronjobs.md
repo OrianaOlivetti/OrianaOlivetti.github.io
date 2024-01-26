@@ -7,7 +7,7 @@ tags: [cronjob, root, linux, hack, script]
 comments: true
 ---
 
-As you might have guessed by the title, in this article, we will explore another scenario where we could take advantage of forgotten cronjobs to gain our precious root access. BUT FIRST, if you are new here, or missed the previous articles about this, don’t hesitate to pay a visit to [PART I](https://https://orianaolivetti.github.io/2023-07-14-rooting-is-easy/) or [PART II](https://orianaolivetti.github.io/2023-02-23-rooting-with-docker/), totally worth it! 
+As you might have guessed by the title, in this article, we will explore another scenario where we could take advantage of forgotten cronjobs to gain our precious root access. BUT FIRST, if you are new here, or missed the previous articles about this, don’t hesitate to pay a visit to [PART I](https://orianaolivetti.github.io/2023-07-14-rooting-is-easy/) or [PART II](https://orianaolivetti.github.io/2023-02-23-rooting-with-docker/), totally worth it! 
 
 And now, focusing on the topic of today... 
 

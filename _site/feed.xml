@@ -12,6 +12,28 @@
     
     
       <item>
+        <title>3 Ways NOT to store secrets in Docker Containers</title>
+        <description>
+          Can your secrets be compromised in a containerized deployment? Are they safe enough from no desired snoopers? - 
+          What do I mean by “secrets”? Passwords, API Tokens, Certificates… You name it. Whatever information your code needs to access what it needs to access - lovely redundancy :) -. Your webserver maybe needs a database password so that it can access a table to do whatever it needs to...
+        </description>
+        <pubDate>Sun, 30 Jul 2023 00:00:00 -0400</pubDate>
+        <link>http://localhost:4000/2023-07-30-not-store-secrets-docker/</link>
+        <guid isPermaLink="true">http://localhost:4000/2023-07-30-not-store-secrets-docker/</guid>
+      </item>
+    
+      <item>
+        <title>Rooting with forgotten CronJobs</title>
+        <description>
+          How to take advantage of forgotten cronjobs to get root access on a host - 
+          As you might have guessed by the title, in this article, we will explore another scenario where we could take advantage of forgotten cronjobs to gain our precious root access. BUT FIRST, if you are new here, or missed the previous articles about this, don’t hesitate to pay a visit...
+        </description>
+        <pubDate>Fri, 21 Jul 2023 00:00:00 -0400</pubDate>
+        <link>http://localhost:4000/2023-07-21-rooting-forgotten-cronjobs/</link>
+        <guid isPermaLink="true">http://localhost:4000/2023-07-21-rooting-forgotten-cronjobs/</guid>
+      </item>
+    
+      <item>
         <title>Getting root user access so easily? How come!</title>
         <description>
           How to take advantage of system binaries to get root access on a host - 
@@ -23,17 +45,6 @@
       </item>
     
       <item>
-        <title>Rooting with forgotten CronJobs</title>
-        <description>
-          How to take advantage of forgotten cronjobs to get root access on a host - 
-          As you might have guessed by the title, in this article, we will explore another scenario where we could take advantage of forgotten cronjobs to gain our precious root access. BUT FIRST, if you are new here, or missed the previous articles about this, don’t hesitate to pay a visit...
-        </description>
-        <pubDate>Fri, 14 Jul 2023 00:00:00 -0400</pubDate>
-        <link>http://localhost:4000/2023-07-14-rooting-forgotten-cronjobs/</link>
-        <guid isPermaLink="true">http://localhost:4000/2023-07-14-rooting-forgotten-cronjobs/</guid>
-      </item>
-    
-      <item>
         <title>Rooting with Docker Containers</title>
         <description>
           How to take advantage of container creation to get root access on a host - 
@@ -42,28 +53,6 @@
         <pubDate>Thu, 23 Feb 2023 00:00:00 -0500</pubDate>
         <link>http://localhost:4000/2023-02-23-rooting-with-docker/</link>
         <guid isPermaLink="true">http://localhost:4000/2023-02-23-rooting-with-docker/</guid>
-      </item>
-    
-      <item>
-        <title>Sample blog post</title>
-        <description>
-          Each post also has a subtitle - 
-          This is a demo post to show you how to write blog posts with markdown. I strongly encourage you to take 5 minutes to learn how to write in markdown - it’ll teach you how to transform regular text into bold/italics/headings/tables/etc. Here is some bold text Here is a secondary...
-        </description>
-        <pubDate>Fri, 28 Feb 2020 00:00:00 -0500</pubDate>
-        <link>http://localhost:4000/2020-02-28-test-markdown/</link>
-        <guid isPermaLink="true">http://localhost:4000/2020-02-28-test-markdown/</guid>
-      </item>
-    
-      <item>
-        <title>Flake it till you make it</title>
-        <description>
-          Excerpt from Soulshaping by Jeff Brown - 
-          Under what circumstances should we step off a path? When is it essential that we finish what we start? If I bought a bag of peanuts and had an allergic reaction, no one would fault me if I threw it out. If I ended a relationship with a woman who...
-        </description>
-        <pubDate>Wed, 26 Feb 2020 00:00:00 -0500</pubDate>
-        <link>http://localhost:4000/2020-02-26-flake-it-till-you-make-it/</link>
-        <guid isPermaLink="true">http://localhost:4000/2020-02-26-flake-it-till-you-make-it/</guid>
       </item>
     
   </channel>

@@ -9,13 +9,13 @@
 
   
 
-  <title>Rooting with Docker Containers</title>
+  <title>3 Ways NOT to store secrets in Docker Containers</title>
 
   
   <meta name="author" content="Oriana Olivetti">
   
 
-  <meta name="description" content="How to take advantage of container creation to get root access on a host">
+  <meta name="description" content="Can your secrets be compromised in a containerized deployment? Are they safe enough from no desired snoopers?">
 
   
 
@@ -76,19 +76,19 @@
 
   
   <meta property="og:site_name" content="Hacking Diaries">
-  <meta property="og:title" content="Rooting with Docker Containers">
-  <meta property="og:description" content="How to take advantage of container creation to get root access on a host">
+  <meta property="og:title" content="3 Ways NOT to store secrets in Docker Containers">
+  <meta property="og:description" content="Can your secrets be compromised in a containerized deployment? Are they safe enough from no desired snoopers?">
 
   
-  <meta property="og:image" content="http://localhost:4000/assets/img/rooting-with-docker/cover.jpg">
+  <meta property="og:image" content="http://localhost:4000/assets/img/not-store-secrets-docker/cover.jpg">
   
 
   
   <meta property="og:type" content="article">
   <meta property="og:article:author" content="Oriana Olivetti">
-  <meta property="og:article:published_time" content="2023-02-23T00:00:00-05:00">
-  <meta property="og:url" content="http://localhost:4000/2023-02-23-rooting-with-docker/">
-  <link rel="canonical" href="http://localhost:4000/2023-02-23-rooting-with-docker/">
+  <meta property="og:article:published_time" content="2023-07-30T00:00:00-04:00">
+  <meta property="og:url" content="http://localhost:4000/2023-07-30-not-store-secrets-docker/">
+  <link rel="canonical" href="http://localhost:4000/2023-07-30-not-store-secrets-docker/">
   
 
   
@@ -97,11 +97,11 @@
   <meta name="twitter:site" content="@OlivettiOriana">
   <meta name="twitter:creator" content="@OlivettiOriana">
 
-  <meta property="twitter:title" content="Rooting with Docker Containers">
-  <meta property="twitter:description" content="How to take advantage of container creation to get root access on a host">
+  <meta property="twitter:title" content="3 Ways NOT to store secrets in Docker Containers">
+  <meta property="twitter:description" content="Can your secrets be compromised in a containerized deployment? Are they safe enough from no desired snoopers?">
 
   
-  <meta name="twitter:image" content="http://localhost:4000/assets/img/rooting-with-docker/cover.jpg">
+  <meta name="twitter:image" content="http://localhost:4000/assets/img/not-store-secrets-docker/cover.jpg">
   
 
   
@@ -239,7 +239,7 @@
     
     
       
-      data-img-src-1="http://localhost:4000/assets/img/rooting-with-docker/cover.jpg"
+      data-img-src-1="http://localhost:4000/assets/img/not-store-secrets-docker/cover.jpg"
     
     
     
@@ -253,15 +253,15 @@
     <div class="row">
       <div class="col-xl-8 offset-xl-2 col-lg-10 offset-lg-1">
         <div class="post-heading">
-          <h1>Rooting with Docker Containers</h1>
+          <h1>3 Ways NOT to store secrets in Docker Containers</h1>
           
             
-              <h2 class="post-subheading">How to take advantage of container creation to get root access on a host</h2>
+              <h2 class="post-subheading">Can your secrets be compromised in a containerized deployment? Are they safe enough from no desired snoopers?</h2>
             
           
 
           
-            <span class="post-meta">Posted on February 23, 2023</span>
+            <span class="post-meta">Posted on July 30, 2023</span>
             
             
           
@@ -277,15 +277,15 @@
     <div class="row">
       <div class="col-xl-8 offset-xl-2 col-lg-10 offset-lg-1">
         <div class="post-heading">
-          <h1>Rooting with Docker Containers</h1>
+          <h1>3 Ways NOT to store secrets in Docker Containers</h1>
           
             
-              <h2 class="post-subheading">How to take advantage of container creation to get root access on a host</h2>
+              <h2 class="post-subheading">Can your secrets be compromised in a containerized deployment? Are they safe enough from no desired snoopers?</h2>
             
           
 
           
-            <span class="post-meta">Posted on February 23, 2023</span>
+            <span class="post-meta">Posted on July 30, 2023</span>
             
             
           
@@ -309,54 +309,100 @@
       
 
       <article role="main" class="blog-post">
-        <p>Will you believe me if I tell you that Docker is a hacker? 
-Let me show you how to take advantage of Docker containers so you can access any high privilege file or perform any command as root.</p>
+        <p><strong>What do I mean by “secrets”?</strong></p>
 
-<p>To begin with, if you already know Docker, you might be aware that the processes inside each container are completely isolated from one another, however, they do share the same <strong>system’s kernel</strong>. And if you are new to Docker, now you know it, roughly.</p>
+<p>Passwords, API Tokens, Certificates… You name it. Whatever information your code needs to access what it needs to access - lovely redundancy :) -. 
+Your webserver maybe needs a database password so that it can access a table to do whatever it needs to do. And we want to make sure that we can give that information to the code without anybody else getting to see it. - So sorry, this is private my lads! -</p>
 
-<p>The fun part starts now!, so if you want to follow along, feel free to duplicate the commands I’m about to show you. Hope you enjoy the ride!
-Let’s start by running a sample apache container, but we will put it to sleep for a while.</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run -d alpine sleep 1d
+<p>And as an aside note I like to <strong>encrypt my secrets</strong>.
+Why do I want to keep them encrypted? -&gt; Well, if somebody somehow gets access to your cluster…. gets access to one of your machines… gets access to one of your containers… If the secret is in plain text the job is done, otherwise, if the secret is encrypted they still have a challenge ahead of them. Kind of obvious.</p>
+
+<p><strong>Now let’s think about the practicalities of how we actually get a secret into a running container…</strong></p>
+
+<p>I’ll start with some really <strong>bad ways.</strong></p>
+
+<p><strong>#1.</strong> The bad ways are to slide the secret value into the code somehow. Probably half of you -my lovely readers- say, <em>“Of course that’s stupid”</em>, and half of you are going, <em>“Hmm, yes, no I’ve never done that. No, don’t look at me.”</em> :B</p>
+
+<p>In case it’s not that obvious to you, if you have your secrets in your source code, you’ve made those secrets accessible to everybody who can see the source code.</p>
+
+<p>Open source? -&gt; That’s a really bad idea.</p>
+
+<p>Closed source? -&gt; You don’t necessarily want all of your developers to be able to read all your secrets</p>
+
+<p>The other thing is that it forces you to update your deployed code every time you need to modify or create a secret. And that’s probably not a good idea.</p>
+
+<p><em>«If you’re the security person who wants to wake up a developer to say hey, it’s 3:00 in the morning but I need you to deploy a new secret. Then you aren’t going to be very popular. So DON’T put your secrets in the source code.»</em></p>
+
+<p>Then, if they’re not going to be in the container image, we’re going to have to get them in at run-time. 
+And there are two methods for doing so…</p>
+
+<p><strong>#2.</strong> One is with <strong>environment variables.</strong></p>
+
+<p>So let’s actually create a container…</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run -it --rm --name ubuntu -e MYSECRET=admin123 ubuntu /bin/bash
 </code></pre></div></div>
-<p>Next I’m going to search for that process, to see its user.</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ps aux | grep sleep
+<p><img src="/assets/img/not-store-secrets-docker/docker1.png" alt="Terminal" class="mx-auto d-block" /></p>
+
+<p>As I didn’t have the latest ubuntu image, it was downloaded for me to use while trying to get the container running.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>env | grep MYSECRET
 </code></pre></div></div>
-<p><img src="/assets/img/rooting-with-docker/1.png" alt="Terminal" class="mx-auto d-block" /></p>
+<p><img src="/assets/img/not-store-secrets-docker/docker2.png" alt="Terminal" class="mx-auto d-block" /></p>
 
-<p>Mmm… weird, it says root, not oriana, but it must be the user running inside that container… right? 
-It’s surely matching the userid from inside the container with the userid that exists on the host machine. But the process inside the container is definetely running with a non-root user. It must be it!</p>
+<p>Obviously, as you would expect, that value is in the container’s environment. Anybody who can <strong>exec</strong> into that container will also be able to read every secret.</p>
 
-<p>To clear doubts, let’s try another case, to make sure that everything works correctly.</p>
+<p>And in case you don’t know. It’s also accessible from a couple of other places. So someone could, for example, inspect that container…</p>
 
-<p>As root, I’ll create a secret file which is very sensitive, and change its permissions so only root will be authorized to see its content.</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>echo "secret" &gt; /tmp/supersecret.txt
-chmod 0600 /tmp/supersecret.txt
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker inspect ubuntu -f ""
 </code></pre></div></div>
-<p><img src="/assets/img/rooting-with-docker/2.png" alt="Terminal" class="mx-auto d-block" /></p>
+<p><img src="/assets/img/not-store-secrets-docker/docker3.png" alt="Terminal" class="mx-auto d-block" /></p>
 
-<p>We have our secret file ready, which can only we read and written by root. Meaning that no other user should be able to see it or modify it.</p>
+<p>And we can see that anybody who can run <strong>docker inspect</strong> - possibly remotely, not necessarily from the exact same machine - can see that environment very clear.</p>
 
-<p>So now, this less privilege user called simba, (which happens to have the same name as my lovely cat), will create a container adding the directory /tmp as a volume. What will happen inside of it? 
-Simba won’t be able to open supersecret.txt, obviously, because he is not a root user. But stuborn as he is, he tries either way.</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run -v /tmp:/tmp -it alpine sh
+<p>Also, I’m just going to send this container to sleep for a little while so that I can find its process-id inside that container.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sleep 100 #(Inside the Container)
 </code></pre></div></div>
-<p><img src="/assets/img/rooting-with-docker/3.png" alt="Terminal" class="mx-auto d-block" /></p>
+<p><img src="/assets/img/not-store-secrets-docker/docker4.png" alt="Terminal" class="mx-auto d-block" /></p>
 
-<p>Wait, what? How was that possible? Was that some sort of witchcraft?</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pidof sleep #(Outside the Container)
+</code></pre></div></div>
+<p><img src="/assets/img/not-store-secrets-docker/docker5.png" alt="Terminal" class="mx-auto d-block" /></p>
 
-<p>Not really, but cool stuff isn’t it? This happens because docker daemons usually runs as root on the host system, meaning that every user capable of creating docker containers could revise or alter arbitrary files for which they don’t have permission. Provided that they can mount the directories as volumes, of course.</p>
+<p>Now I need to be <strong>sudo</strong> or <strong>root</strong> to do this, but inside the <strong>/proc directory</strong>, there is a ton of really interesting information about running processes… Including the environment!!</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo cat /proc/&lt;pid&gt;/environ | tr "\0" "\n" #(Outside the Container)
+</code></pre></div></div>
+<p><img src="/assets/img/not-store-secrets-docker/docker6.png" alt="Terminal" class="mx-auto d-block" /></p>
 
-<p>And then you realize, that most probably, your docker servers are vulnerable, that you need to warn your colleges.</p>
+<p>And right at the top, there is my super-secret secret.</p>
 
-<p><strong>Now, how do we fix this?</strong></p>
+<p>But perhaps the most compelling reason to not use this mechanism is that environments are logged a lot. Quite often when anything goes wrong it will dump the environment to some log file which now contains all your secrets clearly accessible to anybody who can read those logs. So for that reason, you should use the alternative which is to…</p>
 
-<p>You can make Docker to create user ids and group ids outside the ids range handled by the host system (outside 0-1000) by editing <strong>etc/docker/daemon.json</strong> and adding <strong>{“userns-remap”: “default”}</strong> to the contents on the file. This has some limitation, which you can read and learn more about it on Docker’s <a href="https://docs.docker.com/engine/security/userns-remap/">official documentation</a>. And then check the change did the trick by revising the <strong>/etc/subuid</strong> file.</p>
+<p><strong>#3.</strong> <strong>Mount a volume.</strong></p>
 
-<p><strong>IMPORTANT</strong>, note that by doing this, all your images and containers will be erased from the system because docker needs to update all the different ids.</p>
+<p><em>“But wait, Oriana”</em> I heard you say, <em>“NOT TO write your secrets onto disk. They have to be only unencrypted in memory.”</em>
+And yes, that’s right! But those volumes are <strong>temporary file-systems</strong>. A temporary file-system looks like a file-system.. it has things that look like files and directories, but it’s actually only held in memory, not on disk. - Point for volumes! -</p>
 
-<p>Other solution would be to configure the docker daemon as <strong>rootless</strong>, altough it has several dificulties and much more restrinctions, so make sure you understand what this means if your want to implement this rootless configuration on your system. You can learn more about it in <a href="https://docs.docker.com/engine/security/rootless/">here</a>.</p>
+<p><strong>And… How does this compare in terms of ways that people can get to those secrets?</strong></p>
 
-<p>If you liked this post, and want to see Simba putting himself into trouble, make sure to follow me on Twitter and Linkedin, where I’ll update you whenever a new post comes out!</p>
+<ul>
+  <li>
+    <p>Well, the docker inspecting goes away. If I run <strong>docker inspect</strong> I can see the fact that volumes are mounted but you don’t automatically get a dump of all the files inside those volumes. So people can’t just easily grab your secrets by running docker inspect. <strong>:)</strong></p>
+  </li>
+  <li>
+    <p>Anybody who can <strong>exec</strong> into the container can, of course, read that secret. <strong>:(</strong></p>
+  </li>
+  <li>
+    <p>The <strong>/proc directory</strong> thing is still a risk - again only for people who are on your host… so probably, you have other concerns - But you can read the root file system of a container from inside that directory. <strong>:(</strong></p>
+  </li>
+  <li>
+    <p>Another thing that does go away is the <strong>logging</strong> problem. You’re unlikely to see routine logs of all the files with their content. <strong>:)</strong></p>
+  </li>
+</ul>
+
+<p><strong>Conclusion</strong></p>
+
+<p>So having a mounted volume holding your secret is probably a slightly more secure way of going about it than an environment variable. There’re still risks either way.</p>
+
+<p>When you’re thinking about secrets, like everything in security, there’s no perfect solution. All you can do is reduce the risk and prioritize the system’s needs.</p>
 
 <p>Happy Hacking!</p>
 
@@ -368,11 +414,15 @@ Simba won’t be able to open supersecret.txt, obviously, because he is not a ro
           
             <a href="/tags#docker">docker</a>
           
-            <a href="/tags#root">root</a>
+            <a href="/tags#containers">containers</a>
           
-            <a href="/tags#linux">linux</a>
+            <a href="/tags#secrets">secrets</a>
           
-            <a href="/tags#hack">hack</a>
+            <a href="/tags#leak">leak</a>
+          
+            <a href="/tags#envars">envars</a>
+          
+            <a href="/tags#volume">volume</a>
           
         </div>
       
@@ -389,7 +439,7 @@ Simba won’t be able to open supersecret.txt, obviously, because he is not a ro
   <span class="sr-only">Share: </span>
 
   
-    <a href="https://twitter.com/intent/tweet?text=Rooting+with+Docker+Containers&url=http%3A%2F%2Flocalhost%3A4000%2F2023-02-23-rooting-with-docker%2F"
+    <a href="https://twitter.com/intent/tweet?text=3+Ways+NOT+to+store+secrets+in+Docker+Containers&url=http%3A%2F%2Flocalhost%3A4000%2F2023-07-30-not-store-secrets-docker%2F"
       class="btn btn-social-icon btn-twitter" title="Share on Twitter">
       <span class="fab fa-fw fa-twitter" aria-hidden="true"></span>
       <span class="sr-only">Twitter</span>
@@ -397,7 +447,7 @@ Simba won’t be able to open supersecret.txt, obviously, because he is not a ro
   
 
   
-    <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2F2023-02-23-rooting-with-docker%2F"
+    <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2F2023-07-30-not-store-secrets-docker%2F"
       class="btn btn-social-icon btn-facebook" title="Share on Facebook">
       <span class="fab fa-fw fa-facebook" aria-hidden="true"></span>
       <span class="sr-only">Facebook</span>
@@ -405,7 +455,7 @@ Simba won’t be able to open supersecret.txt, obviously, because he is not a ro
   
 
   
-    <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2F2023-02-23-rooting-with-docker%2F"
+    <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2F2023-07-30-not-store-secrets-docker%2F"
       class="btn btn-social-icon btn-linkedin" title="Share on LinkedIn">
       <span class="fab fa-fw fa-linkedin" aria-hidden="true"></span>
       <span class="sr-only">LinkedIn</span>
@@ -424,10 +474,10 @@ Simba won’t be able to open supersecret.txt, obviously, because he is not a ro
 
       <ul class="pagination blog-pager">
         
-        
-        <li class="page-item next">
-          <a class="page-link" href="/2023-07-14-rooting-is-easy/" data-toggle="tooltip" data-placement="top" title="Getting root user access so easily? How come!">Next Post &rarr;</a>
+        <li class="page-item previous">
+          <a class="page-link" href="/2023-07-21-rooting-forgotten-cronjobs/" data-toggle="tooltip" data-placement="top" title="Rooting with forgotten CronJobs">&larr; Previous Post</a>
         </li>
+        
         
       </ul>
       
