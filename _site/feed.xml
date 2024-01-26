@@ -12,14 +12,25 @@
     
     
       <item>
+        <title>I&apos;ve read OWASP Web App Pentesting Guide so you don&apos;t have to... Part I.</title>
+        <description>
+          Web App Pentesting: Information Gathering - 
+          Here I am, as the hero internet needs, to give you all an easy to digest action list of the thick OWASP WebApp Penetration Testing Guide v4. The Penetration Testing Methodology is made of 12 different steps an ethical hacker must take when performing a penetration test, and we will...
+        </description>
+        <pubDate>Fri, 26 Jan 2024 00:00:00 -0500</pubDate>
+        <link>http://localhost:4000/2024-01-26-owasp-information-gathering/</link>
+        <guid isPermaLink="true">http://localhost:4000/2024-01-26-owasp-information-gathering/</guid>
+      </item>
+    
+      <item>
         <title>3 Ways NOT to store secrets in Docker Containers</title>
         <description>
           Can your secrets be compromised in a containerized deployment? Are they safe enough from no desired snoopers? - 
           What do I mean by “secrets”? Passwords, API Tokens, Certificates… You name it. Whatever information your code needs to access what it needs to access - lovely redundancy :) -. Your webserver maybe needs a database password so that it can access a table to do whatever it needs to...
         </description>
-        <pubDate>Sun, 30 Jul 2023 00:00:00 -0400</pubDate>
-        <link>http://localhost:4000/2023-07-30-not-store-secrets-docker/</link>
-        <guid isPermaLink="true">http://localhost:4000/2023-07-30-not-store-secrets-docker/</guid>
+        <pubDate>Wed, 09 Aug 2023 00:00:00 -0400</pubDate>
+        <link>http://localhost:4000/2023-08-09-not-store-secrets-docker/</link>
+        <guid isPermaLink="true">http://localhost:4000/2023-08-09-not-store-secrets-docker/</guid>
       </item>
     
       <item>
